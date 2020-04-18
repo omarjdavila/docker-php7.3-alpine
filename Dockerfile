@@ -27,6 +27,8 @@ RUN wget https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar && \
 # Install Supervisor
 RUN apk --no-cache add supervisor && mkdir /etc/supervisor.d
 
+COPY supervisord.conf /etc/supervisor/supervisord.conf
+
 # Create user and group
 RUN addgroup -S -g 1000 www && adduser -S -D -u 1000 -G www www
 
@@ -35,4 +37,4 @@ RUN mkdir /www && touch /www/docker-volume-not-mounted && chown www:www /www
 WORKDIR /www
 
 # Supervisor will run PHP-FPM and Laravel queue workers
-CMD ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
+CMD ["supervisord", "--nodaemon", "--configuration", "/etc/supervisor/supervisord.conf"]
